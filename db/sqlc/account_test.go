@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -135,9 +136,28 @@ func TestTxCreateAccount(t *testing.T) {
 		params := CreateAccountTxParams{
 			CreateAccountParams: arg,
 		}
-		result, err := testStore.CreateAccountTx(context.Background(), params)
 
-		require.NoError(t, err)
-		require.NotEmpty(t, result)
+		n := 5
+		errs := make(chan error)
+		results := make(chan CreateAccountTxResult)
+
+		for i := 0; i < n; i++ {
+			go func() {
+				result, err := testStore.CreateAccountTx(context.Background(), params)
+				errs <- err
+				results <- result
+			}()
+		}
+
+		for i := 0; i < n; i++ {
+			err := <-errs
+			require.NoError(t, err)
+
+			result := <-results
+			require.NotEmpty(t, result)
+
+			fmt.Println(">> tx:", result)
+		}
+
 	})
 }
