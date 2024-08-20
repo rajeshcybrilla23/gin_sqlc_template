@@ -4,19 +4,19 @@ import (
 	"context"
 	"gin-template/api"
 	db "gin-template/db/sqlc"
+	"gin-template/db/util"
 	"log"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
-	const (
-		dbDriver      = "postgres"
-		dbSource      = "postgres://rajeshmanjunath:password@localhost:5432/gin_sqlc_template?sslmode=disable"
-		serverAddress = "0.0.0.0:8080"
-	)
+	config, err := util.LoadConfig(".") // . mean current folder
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
 
-	connPool, err := pgxpool.New(context.Background(), dbSource)
+	connPool, err := pgxpool.New(context.Background(), config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
@@ -27,7 +27,7 @@ func main() {
 		log.Fatal("cannot create server")
 	}
 
-	err = server.Start(serverAddress)
+	err = server.Start(config.HTTPServerAddress)
 	if err != nil {
 		log.Fatal("cannot create server")
 	}

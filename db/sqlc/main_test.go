@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"gin-template/db/util"
 	"log"
 	"os"
 	"testing"
@@ -11,13 +12,14 @@ import (
 
 var testStore Store
 
-const (
-	dbDriver = "postgres"
-	dbSource = "postgres://rajeshmanjunath:password@localhost:5432/gin_sqlc_template?sslmode=disable"
-)
-
 func TestMain(m *testing.M) {
-	connPool, err := pgxpool.New(context.Background(), dbSource)
+
+	config, err := util.LoadConfig("./../..") // . mean current folder
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
+
+	connPool, err := pgxpool.New(context.Background(), config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
@@ -36,4 +38,3 @@ func CreateForEach(setUp func(), tearDown func(ctx context.Context)) func(func()
 		tearDown(ctx)
 	}
 }
-
