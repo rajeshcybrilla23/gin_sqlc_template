@@ -7,6 +7,7 @@ import (
 	"gin-template/db/util"
 	"log"
 
+	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -22,13 +23,16 @@ func main() {
 	}
 
 	store := db.NewStore(connPool)
-	server, err := api.NewServer(store)
-	if err != nil {
-		log.Fatal("cannot create server")
-	}
+	api.NewServer(store)
+	router := api.SetupRouter()
 
-	err = server.Start(config.HTTPServerAddress)
+	err = start(config.HTTPServerAddress, router)
 	if err != nil {
 		log.Fatal("cannot create server")
 	}
+}
+
+// Start runs the HTTP server on a specific address.
+func start(address string, router *gin.Engine) error {
+	return router.Run(address)
 }
