@@ -11,7 +11,11 @@ type createAccountRequest struct {
 	Currency string `json:"currency" binding:"required,oneof=USD INR"`
 }
 
-func (server *DBStore) Create(ctx *gin.Context) (*db.Account, error) {
+type AccountService struct {
+	DBStore
+}
+
+func (accountService *AccountService) Create(ctx *gin.Context) (*db.Account, error) {
 	var req createAccountRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		return nil, err
@@ -21,7 +25,8 @@ func (server *DBStore) Create(ctx *gin.Context) (*db.Account, error) {
 		Currency: req.Currency,
 		Balance:  0,
 	}
-	account, err := server.store.CreateAccount(ctx, arg)
+
+	account, err := accountService.store.CreateAccount(ctx, arg)
 	if err != nil {
 		return nil, err
 	}

@@ -1,11 +1,25 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"gin-template/service"
 
-func SetupRouter ()( *gin.Engine) {
+	"github.com/gin-gonic/gin"
+)
+
+func SetupRouter (services service.Services)( *gin.Engine) {
 	router := gin.Default()
 
-	//router.POST("/accounts", createAccount)
+	baseController := BaseController {
+		services: services,
+	}
+	accountsRoute(router, baseController)
 
 	return router
+}
+
+func accountsRoute(router *gin.Engine, baseController BaseController) {
+	accountsController := AccountController{
+		BaseController: baseController,
+	}
+	router.POST("/accounts", accountsController.createAccount)
 }

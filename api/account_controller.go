@@ -3,15 +3,17 @@ package api
 import (
 	db "gin-template/db/sqlc"
 	"net/http"
-	service "gin-template/service"
+
 	"github.com/gin-gonic/gin"
 )
 
+type AccountController struct {
+	BaseController
+}
 
+func (accountController *AccountController) createAccount(ctx *gin.Context) {
 
-func createAccount(ctx *gin.Context) {
-
-	account, err := service.
+	account, err := accountController.services.AccountService.Create(ctx)
 	if err != nil {
 		errCode := db.ErrorCode(err)
 		if errCode == db.ForeignKeyViolation || errCode == db.UniqueViolation {

@@ -24,8 +24,9 @@ func main() {
 	}
 
 	store := db.NewStore(connPool)
-	service.NewServer(store)
-	router := api.SetupRouter()
+	services := service.InitServices(store)
+
+	router := api.SetupRouter(services)
 
 	err = start(config.HTTPServerAddress, router)
 	if err != nil {
