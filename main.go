@@ -5,6 +5,7 @@ import (
 	"gin-template/api"
 	db "gin-template/db/sqlc"
 	"gin-template/db/util"
+	"gin-template/service"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +24,7 @@ func main() {
 	}
 
 	store := db.NewStore(connPool)
-	api.NewServer(store)
+	service.NewServer(store)
 	router := api.SetupRouter()
 
 	err = start(config.HTTPServerAddress, router)

@@ -1,17 +1,17 @@
-package api
+package service
 
 import (
 	db "gin-template/db/sqlc"
 )
 
-type Server struct {
+type DBStore struct {
 	store db.Store
 }
 
 // NewServer creates a new HTTP server and set up routing.
-func NewServer(store db.Store) *Server {
+func NewServer(store db.Store) *DBStore {
 
-	server := &Server{
+	server := &DBStore{
 		store: store,
 	}
 
