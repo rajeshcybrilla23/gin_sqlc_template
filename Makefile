@@ -25,6 +25,6 @@ server:
 	go run main.go
 
 mock:
-	mockgen -package mockDB -destination db/mock/store.go  github.com/raj23manj/techshool-go/db/sqlc Store
+	mockgen -package mockDB -destination db/mock/store.go  gin-template/db/sqlc Store
 
 .PHONY: migrateup migratedown migrateup1 migratedown1 new_migration sqlc test server mock
