@@ -5,3 +5,7 @@
   * https://github.com/jackc/pgx/issues/743
 * For pgx config using db connection pool see
   - https://github.com/techschool/simplebank
+* chat gpt:
+  - https://chatgpt.com/c/ba729822-c7a7-46ad-88c4-7d61881445e3
+  - go run main.go wire_gen.go
+  - go build -o main

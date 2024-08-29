@@ -9,7 +9,7 @@ import (
 )
 
 type AccountService interface {
-	createAccount(ctx *gin.Context)
+	CreateAccount(ctx *gin.Context)
 }
 
 type AccountServiceImpl struct {
@@ -27,7 +27,7 @@ func AccountServiceImplInit(accRepo repository.AccountRpositoryImp) AccountServi
 	}
 }
 
-func (accServ AccountServiceImpl) createAccount(ctx *gin.Context) (db.Account, error) {
+func (accServ AccountServiceImpl) CreateAccount(ctx *gin.Context) (db.Account, error) {
 	var req createAccountRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		return db.Account{}, err
