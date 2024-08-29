@@ -13,8 +13,8 @@ type AccountRpositoryImp struct {
 	store db.Store
 }
 
-func AccountRepositoryImpInit(store db.Store) *AccountRpositoryImp {
-	return &AccountRpositoryImp{
+func AccountRepositoryImpInit(store db.Store) AccountRpositoryImp {
+	return AccountRpositoryImp{
 		store: store,
 	}
 }
