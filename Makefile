@@ -27,4 +27,7 @@ server:
 mock:
 	mockgen -package mockDB -destination db/mock/store.go  gin-template/db/sqlc Store
 
-.PHONY: migrateup migratedown migrateup1 migratedown1 new_migration sqlc test server mock
+wire_gen:
+	wire gen ./config
+
+.PHONY: migrateup migratedown migrateup1 migratedown1 new_migration sqlc test server mock wire_gen
