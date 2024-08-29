@@ -23,6 +23,11 @@ var accountSvc = wire.NewSet(service.AccountServiceImplInit)
 var accountCtrl = wire.NewSet(controller.AccountControllerImplInit)
 
 func Init() *Initialization {
-	wire.Build(NewInitialization, store, envVariables, accountCtrl, accountSvc, accountRepo)
+	wire.Build(
+		NewInitialization,
+		store,
+		envVariables,
+		accountCtrl, accountSvc, accountRepo
+	)
 	return nil
 }
